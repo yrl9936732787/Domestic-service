@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="com.edu.dao.HomeUserDao"> 
+
+       <insert	id="addHuser" parameterType="huser" >
+		insert into tb_Huser(id,username,password) values(#{id},#{username},#{password})
+	   </insert>
+	   
+	   <select id="findUserByIdAndPassword" parameterType="Huser"
+		resultType="huser">
+		select * from tb_Huser where id = #{id} and password=#{password}
+	   </select>
+	   
+	   <update id="updateInforById"  parameterType="huser">
+		update tb_Huser
+		 <set>
+		 	<if test="username !=null and username!=''">
+		 		username=#{username},
+		 	</if>
+		 	<if test="userphone !=null and userphone !=''">
+		 		userphone=#{userphone},
+		 	</if>
+		 	<if test="usersex !=null and usersex !=''">
+		 		usersex=#{usersex},
+		 	</if>
+		 	<if test="useraddress !=null and useraddress !=''">
+		 		useraddress=#{useraddress},
+		 	</if>
+		 	<if test="userintroduction !=null and userintroduction !=''">
+		 		userintroduction=#{userintroduction}
+		 	</if>
+		 	
+		 </set>
+		 where id=#{id}
+		</update>
+	
+		<update id="updatePasById"  parameterType="huser">
+		update tb_Huser
+		 <set>
+		 	<if test="password !=null and password!=''">
+		 		password=#{password},
+		 	</if>
+		 </set>
+		 where id=#{id}
+		</update>
+	
+		<insert	id="insertActive" parameterType="newActive" >
+		insert into tb_newActive(uid,uid_name,publish_time,new_title,new_content) 
+		values(#{uid},#{uid_name},#{publish_time},#{new_title},#{new_content})
+		</insert>
+	   
+		<insert	id="insertAunt" parameterType="aunt" >
+		insert into tb_aunt(aunt_name,aunt_sex,aunt_type,aunt_age,aunt_phone,aunt_introduce) 
+		values(#{aunt_name},#{aunt_sex},#{aunt_type},#{aunt_age},#{aunt_phone},#{aunt_introduce})
+		</insert>
+	   
+		<insert	id="insertNeed" parameterType="need" >
+		insert into tb_need(need_type,need_username,need_phone,need_address,need_request,need_date,need_state) 
+		values(#{need_type},#{need_username},#{need_phone},#{need_address},#{need_request},#{need_date},#{need_state})
+		</insert>
+		
+		<select id="findAuntByState" parameterType="aunt" resultType="aunt">
+	     select * from tb_aunt 
+		</select>		
+		<select id="findAuntCountByState" parameterType="aunt" resultType="int">
+     	select count(*) from tb_aunt  
+		</select>
+		
+		
+		<select id="findAuntByName" parameterType="aunt"
+		resultType="aunt">
+	     select * from tb_aunt
+	      <where>
+		     <if test="aunt_name !=null and aunt_name !=''">
+		    	 <bind name="pattern_aunt_name" value="'%'+_parameter.getAunt_name()+'%'" />
+				and aunt_name like #{pattern_aunt_name}
+		     </if>
+		  </where>
+		</select>		
+		<select id="findAuntCountByName" parameterType="aunt"
+		resultType="int">
+     	select count(*) from tb_aunt
+      		<where>
+	    		 <if test="aunt_name !=null and aunt_name !=''">
+	    	 		<bind name="pattern_aunt_name" value="'%'+_parameter.getAunt_name()+'%'" />
+					and aunt_name like #{pattern_aunt_name}
+	    		 </if>
+     		</where>
+		</select>
+		
+		
+		<select id="findAuntByType" parameterType="aunt"
+		resultType="aunt">
+	     select * from tb_aunt
+	      <where>
+		     <if test="aunt_type !=null and aunt_type !=''">
+		    	 <bind name="pattern_aunt_type" value="'%'+_parameter.getAunt_type()+'%'" />
+				and aunt_type like #{pattern_aunt_type}
+		     </if>
+		  </where>
+		</select>		
+		<select id="findAuntCountByType" parameterType="aunt"
+		resultType="int">
+     	select count(*) from tb_aunt
+      		<where>
+	    		 <if test="aunt_type !=null and aunt_type !=''">
+	    	 		<bind name="pattern_aunt_type" value="'%'+_parameter.getAunt_type()+'%'" />
+					and aunt_type like #{pattern_aunt_type}
+	    		 </if>
+     		</where>
+		</select>
+		
+		
+		<select id="findAuntDetailById" parameterType="String" resultType="aunt">
+		select * from tb_aunt where id = #{id}
+	    </select>
+	    
+	    <select id="toNewActive" parameterType="newActive" resultType="newActive">
+	     select * from tb_newActive 
+		</select>
+		
+		<select id="toFindNewActiveById" parameterType="String" resultType="newActive">
+		select * from tb_newActive where id = #{id}
+	    </select>
+	    
+	    <select id="findnewActiveReplyById" parameterType="String" resultType="newActiveReply">
+		select * from tb_newActiveReply where id = #{id}
+	    </select>
+	    
+	    <insert	id="insertActiveReply" parameterType="newActiveReply" >
+		insert into tb_newActiveReply(id,rid,rid_name,reply_time,reply_content) 
+		values(#{id},#{rid},#{rid_name},#{reply_time},#{reply_content})
+		</insert>
+		
+		
+	   
+
+
+	
+	   
+</mapper>

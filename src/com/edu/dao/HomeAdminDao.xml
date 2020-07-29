@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="com.edu.dao.HomeAdminDao"> 
+
+		<select id="findAdminByIdAndPassword" parameterType="Hadmin"
+		resultType="hadmin">
+		select * from tb_Hadmin where id = #{id} and password=#{password}
+		</select>
+	   
+		<select id="findAuntByCond2" parameterType="aunt"
+		resultType="aunt">
+	     select * from tb_aunt
+	      <where>
+		     <if test="aunt_name !=null and aunt_name !=''">
+		    	 <bind name="pattern_aunt_name" value="'%'+_parameter.getAunt_name()+'%'" />
+				and aunt_name like #{pattern_aunt_name}
+		     </if>
+		  </where>
+		</select>
+		
+		<select id="findAuntCountByCond2" parameterType="aunt"
+		resultType="int">
+     	select count(*) from tb_aunt
+      		<where>
+	    		 <if test="aunt_name !=null and aunt_name !=''">
+	    	 		<bind name="pattern_aunt_name" value="'%'+_parameter.getAunt_name()+'%'" />
+					and aunt_name like #{pattern_aunt_name}
+	    		 </if>
+     		</where>
+		</select>
+		
+		<insert	id="Aunt_add" parameterType="aunt" >
+		insert into tb_aunt(image,aunt_name,aunt_sex,aunt_type,aunt_age,aunt_phone,aunt_idcard,aunt_introduce,aunt_state) 
+		values(#{image},#{aunt_name},#{aunt_sex},#{aunt_type},#{aunt_age},#{aunt_phone},#{aunt_idcard},#{aunt_introduce},#{aunt_state})
+		</insert>
+		
+		<select id="updateAuntById" parameterType="String" resultType="aunt">
+		select * from tb_aunt where id = #{id}
+		</select>
+		
+		<update id="updateAuntModify"  parameterType="aunt">
+		update tb_aunt
+		 <set>
+		 	<if test="aunt_name !=null and aunt_name!=''">
+		 		aunt_name=#{aunt_name},
+		 	</if>
+		 	<if test="aunt_sex !=null and aunt_sex !=''">
+		 		aunt_sex=#{aunt_sex},
+		 	</if>
+		 	<if test="aunt_age !=null and aunt_age !=''">
+		 		aunt_age=#{aunt_age},
+		 	</if>
+		 	<if test="aunt_type !=null and aunt_type !=''">
+		 		aunt_type=#{aunt_type},
+		 	</if>
+		 	<if test="aunt_phone !=null and aunt_phone !=''">
+		 		aunt_phone=#{aunt_phone},
+		 	</if>
+		 	<if test="aunt_introduce !=null and aunt_introduce !=''">
+		 		aunt_introduce=#{aunt_introduce},
+		 	</if>
+		 	<if test="aunt_state !=null and aunt_state !=''">
+		 		aunt_state=#{aunt_state}
+		 	</if>
+		 	
+		 </set>
+		 where id=#{id}
+		</update>
+		
+		
+		<insert	id="insertAdmin" parameterType="hadmin" >
+		insert into tb_hadmin(id,username,password,admin_time,admin_state) values(#{id},#{username},#{password},#{admin_time},#{admin_state})
+		</insert>
+		
+		
+		<select id="updateAdminById" parameterType="String" resultType="hadmin">
+		select * from tb_hadmin where id = #{id}
+		</select>
+		
+		
+		<update id="updateAdminModify"  parameterType="hadmin">
+		update tb_hadmin
+		 <set>
+		 	<if test="admin_state !=null and admin_state !=''">
+		 		admin_state=#{admin_state}
+		 	</if>		 	
+		 </set>
+		 where id=#{id}
+		</update>
+		
+		<select id="findAdminByCond2" parameterType="hadmin" resultType="hadmin">
+	     select * from tb_hadmin
+		</select>
+		
+		<select id="findAdminCountByCond2" parameterType="hadmin" resultType="int">
+     	select count(*) from tb_hadmin
+		</select>
+		
+		
+		<select id="findUserByCond2" parameterType="huser" resultType="huser">
+	     select * from tb_huser 
+			<where>
+		     <if test="id !=null and id !=''">
+		    	 <bind name="pattern_id" value="_parameter.getId()" />
+				and id = #{pattern_id}
+		     </if>
+
+		 	 </where>
+		</select>
+		
+		<select id="findUserCountByCond2" parameterType="huser" resultType="int">
+     	select count(*) from tb_huser 
+     	<where>
+		     <if test="id !=null and id !=''">
+		    	 <bind name="pattern_id" value="_parameter.getId()" />
+				and id = #{pattern_id}
+		     </if>
+		     </where>
+		</select>
+		
+		<insert	id="User_add" parameterType="huser" >
+		insert into tb_huser(id,password,username,userphone,usersex,useraddress,userintroduction) 
+		values(#{id},#{password},#{username},#{userphone},#{usersex},#{useraddress},#{userintroduction})
+		</insert>
+		
+		
+		<select id="findOrderBy_Uid_Auntid"  resultType="order"  parameterType="order">
+		select * from tb_order
+		<where>
+			<if test="uid!=null and uid!=''">
+				<bind name="pattern_uid" value="_parameter.getUid()" />
+				uid = #{pattern_uid}
+			</if>
+			<if test="aunt_name!=null and aunt_name!=''">
+				<bind name="pattern_aunt_name" value="'%'+_parameter.getAunt_name()+'%'" />
+				and aunt_name like #{pattern_aunt_name}
+			</if>
+		</where>
+		</select>
+		
+		<select id="findOrderCountBy_Uid_Auntid"  resultType="int"  parameterType="order">
+		select count(*) from tb_order
+		<where>
+			<if test="uid!=null and uid!=''">
+				<bind name="pattern_uid" value="_parameter.getUid()" />
+				uid = #{pattern_uid}
+			</if>
+			<if test="aunt_name!=null and aunt_name!=''">
+				<bind name="pattern_aunt_name" value="'%'+_parameter.getAunt_name()+'%'" />
+				and aunt_name like #{pattern_aunt_name}
+			</if>
+		</where>
+		</select>
+	
+		<select id="toNeed" parameterType="String" resultType="need">
+		select * from tb_need
+		</select>
+		
+		<update id="updateNeed2"  parameterType="need" >
+		update tb_need set need_state='处理中' where id=#{id}
+		</update>
+		
+		<update id="updateNeed3"  parameterType="need" >
+		update tb_need set need_state='处理完毕' where id=#{id}
+		</update>
+		
+		<select id="findupdateNeed4ById" parameterType="String" resultType="need">
+		select * from tb_need where id = #{id}
+		</select>
+		
+		<update id="updateNeed4"  parameterType="need">
+		update tb_need
+		 <set>
+		 	<if test="need_beizhu !=null and need_beizhu !=''">
+		 		need_beizhu=#{need_beizhu},
+		 	</if>
+		 	<if test="need_address !=null and need_address !=''">
+		 		need_address=#{need_address},
+		 	</if>
+		 	<if test="need_request !=null and need_request !=''">
+		 		need_request=#{need_request},
+		 	</if>
+		 	<if test="need_phone !=null and need_phone !=''">
+		 		need_phone=#{need_phone}
+		 	</if>
+		 	
+		 </set>
+		 where id=#{id}
+		</update>
+		
+		
+		
+		<select id="toComment" parameterType="comment"
+		resultType="comment">
+	     select * from tb_comment
+	      <where>
+		     <if test="aid !=null and aid !=''">
+		    	 <bind name="pattern_aid" value="'%'+_parameter.getAid()+'%'" />
+				and aid like #{pattern_aid}
+		     </if>
+		      <if test="aid_name !=null and aid_name !=''">
+		    	 <bind name="pattern_aid_name" value="'%'+_parameter.getAid_name()+'%'" />
+				and aid_name like #{pattern_aid_name}
+		     </if>
+		      <if test="comment_grade !=null and comment_grade !=''">
+		    	 <bind name="pattern_comment_grade" value="'%'+_parameter.getComment_grade()+'%'" />
+				and comment_grade like #{pattern_comment_grade}
+		     </if>
+		  </where>
+		</select>
+		
+		<select id="findCommentCount" parameterType="comment"
+		resultType="int">
+     	select count(*) from tb_comment
+      		<where>
+		     <if test="aid !=null and aid !=''">
+		    	 <bind name="pattern_aid" value="'%'+_parameter.getAid()+'%'" />
+				and aid like #{pattern_aid}
+		     </if>
+		      <if test="aid_name !=null and aid_name !=''">
+		    	 <bind name="pattern_aid_name" value="'%'+_parameter.getAid_name()+'%'" />
+				and aid_name like #{pattern_aid_name}
+		     </if>
+		      <if test="comment_grade !=null and comment_grade !=''">
+		    	 <bind name="pattern_comment_grade" value="'%'+_parameter.getComment_grade()+'%'" />
+				and comment_grade like #{pattern_comment_grade}
+		     </if>
+		  </where>
+		</select>
+		
+		
+		<delete id="deleteComment"  parameterType="comment">
+		delete from tb_comment where id=#{id}
+		</delete>
+		
+	  
+
+
+
+</mapper>

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="com.edu.dao.OrderDao"> 
+
+ 		<update id="updateOrderAunt_stateById"  parameterType="aunt">
+		update tb_aunt set aunt_state='预约中' where id=#{id}
+		</update>
+		
+		<insert	id="insertOrder_Aid_Uid" parameterType="order" >
+		insert into tb_order(uid,auntid,aunt_name,aunt_image,aunt_type,aunt_phone,aunt_state,aunt_idcard,dangqian_work_begin,dangqian_work_end,user_name,user_phone) 
+		values(#{uid},#{auntid},#{aunt_name},#{aunt_image},#{aunt_type},#{aunt_phone},#{aunt_state},#{aunt_idcard},#{dangqian_work_begin},#{dangqian_work_end},#{user_name},#{user_phone})
+		</insert>
+		
+		<update id="updateOrderState"  parameterType="order">
+		update tb_order set aunt_state='预约中' where oid=#{oid}
+		</update>	
+		
+		<select id="findOrderById" parameterType="order" resultType="order">
+	     select * from tb_order where uid = #{uid}
+		</select>
+		
+		<select id="toUpdate_creatOrder" parameterType="String" resultType="order">
+		select * from tb_order where oid = #{oid}
+		</select>
+		 
+		<update id="Update_creatOrder"  parameterType="order">
+		update tb_order
+		 <set>
+		 	<if test="aunt_name !=null and aunt_name!=''">
+		 		aunt_name=#{aunt_name},
+		 	</if>
+		 	<if test="hetong_content !=null and hetong_content !=''">
+		 		hetong_content=#{hetong_content},
+		 	</if>
+		 	<if test="money !=null and money !=''">
+		 		money=#{money},
+		 	</if>
+		 	<if test="aunt_signature !=null and aunt_signature !=''">
+		 		aunt_signature=#{aunt_signature},
+		 	</if>
+		 	<if test="aunt_idcard !=null and aunt_idcard !=''">
+		 		aunt_idcard=#{aunt_idcard},
+		 	</if>
+		 	<if test="aunt_phone !=null and aunt_phone !=''">
+		 		aunt_phone=#{aunt_phone},
+		 	</if>
+		 	<if test="aunt_signdate !=null and aunt_signdate !=''">
+		 		aunt_signdate=#{aunt_signdate},
+		 	</if>
+		 		aunt_state=#{aunt_state},work_begin=#{work_begin},work_end=#{work_end}
+		 	
+		 </set>
+		 where oid=#{oid}
+		</update>
+		
+		
+		<update id="update_MyOrder_detail"  parameterType="order">
+		update tb_order
+		 <set>
+		 	<if test="user_name !=null and user_name !=''">
+		 		user_name=#{user_name},
+		 	</if>
+		 	<if test="user_address !=null and user_address !=''">
+		 		user_address=#{user_address},
+		 	</if>
+		 	<if test="user_signature !=null and user_signature !=''">
+		 		user_signature=#{user_signature},
+		 	</if>
+		 	<if test="hetong_content !=null and hetong_content !=''">
+		 		hetong_content=#{hetong_content},
+		 	</if>
+		 	<if test="user_idcard !=null and user_idcard !=''">
+		 		user_idcard=#{user_idcard},
+		 	</if>
+		 	<if test="user_phone !=null and user_phone !=''">
+		 		user_phone=#{user_phone},
+		 	</if>
+		 	<if test="user_signdate !=null and user_signdate !=''">
+		 		user_signdate=#{user_signdate},
+		 	</if>
+		 		aunt_state=#{aunt_state},
+		 		order_time=#{order_time}
+		 	
+		 </set>
+		 where oid=#{oid}
+		</update>
+		
+		
+		<delete id="deleteOrder"  parameterType="order">
+		delete from tb_order where oid=#{oid}
+		</delete>
+		
+		<update id="updateAuntStateByOrderAuntid"  parameterType="aunt">
+		update tb_aunt set aunt_state='空闲' where id=#{id}
+		</update>
+		
+		<update id="updateCommentState"  parameterType="order">
+		update tb_order set order_commentState='已评论' where oid=#{oid}
+		</update>
+		
+		<insert	id="insertComment" parameterType="comment" >
+		insert into tb_comment(uid,aid,uid_name,aid_name,comment_content,comment_time,comment_grade) 
+		values(#{uid},#{aid},#{uid_name},#{aid_name},#{comment_content},#{comment_time},#{comment_grade})
+		</insert>
+		
+		<select id="findCommentByAid" parameterType="comment" resultType="comment">
+	     select * from tb_comment where aid = #{aid}
+		</select>
+		
+		<select id="findOrderByAuntid" parameterType="order" resultType="order">
+	     select * from tb_order where auntid = #{auntid}
+		</select>
+		
+		<select id="findAllOrder" parameterType="String" resultType="order">
+	     select * from tb_order where oid=#{oid}
+		</select>
+		
+		<select id="findAuntYuyueByAuntid" parameterType="String" resultType="order">
+	     select * from tb_order where auntid = #{auntid}
+		</select>
+
+		
+</mapper>
